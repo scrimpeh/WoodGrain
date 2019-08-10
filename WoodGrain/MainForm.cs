@@ -206,7 +206,7 @@ namespace WoodGrain
 				);
 			} catch (Exception ex) {
 				MessageBox.Show(
-					"Something unexpected went wrong. Send me a screenshot of the error message.\n\n" + ex.ToString(), "Unexpected Error!",
+					"Something unexpected went wrong.\n\n" + ex.ToString(), "Unexpected Error!",
 					MessageBoxButtons.OK, MessageBoxIcon.Error
 				);
 			}
@@ -242,7 +242,6 @@ namespace WoodGrain
 
 				for (var j = layer; j < layerNext; j++)
 					layers.Add(temp);
-
 			}
 			layers.Add(Grain.Last().Item2);
 
