@@ -21,6 +21,7 @@ namespace WoodGrain
 		private OutputType outputType;
 
 		public int PreviewZoom { get; private set; } = 1;
+
 		public const int PreviewTempMin = 150;
 		public const int PreviewTempMax = 300;
 
@@ -172,7 +173,7 @@ namespace WoodGrain
 			}
 
 			GetPreview();
-			if (Grain == null) 
+			if (Grain == null)
 			{
 				// If grain is still null, that means the operation failed somewhere
 				MessageBox.Show(
@@ -245,9 +246,8 @@ namespace WoodGrain
 			}
 			layers.Add(Grain.Last().Item2);
 
-
 			var width = PictureBoxPreview.Width;
-			var height = Math.Max(PanelPreviewScroll.Height, layers.Count * PreviewZoom);
+			var height = layers.Count * PreviewZoom;
 			var bitmap = new Bitmap(width, height);
 
 			for (var y = 0; y < layers.Count; y++)
@@ -264,17 +264,13 @@ namespace WoodGrain
 				}
 			}
 			var finalColor = layers[layers.Count - 1];
+
 			if (finalColor > 255)
 				finalColor = 255;
-			for (var y = layers.Count * PreviewZoom; y < bitmap.Height; y++)
-			{
-				for (var x = 0; x < bitmap.Width; x++)
-				{
-					bitmap.SetPixel(x, y, Color.FromArgb(finalColor, finalColor, finalColor));
-				}
-			}
 
-			SetPreviewImage(bitmap);
+			var backColor = Color.FromArgb(finalColor, finalColor, finalColor);
+			SetPreviewImage(bitmap, backColor);
+			SetPreviewBackColor(backColor);
 		}
 
 		private void GetGrain()
@@ -303,17 +299,26 @@ namespace WoodGrain
 			Task.Run(() => SetPreviewImage());
 		}
 
-		private delegate void SetPreviewImageDelegate(Image image);
-
-		private void SetPreviewImage(Image image)
+		private delegate void SetPreviewImageDelegate(Image image, Color backColor);
+		private void SetPreviewImage(Image image, Color backColor)
 		{
 			if (PictureBoxPreview.InvokeRequired)
-				Invoke(new SetPreviewImageDelegate(SetPreviewImage), image);
+				Invoke(new SetPreviewImageDelegate(SetPreviewImage), image, backColor);
 			else
 			{
 				PictureBoxPreview.Image?.Dispose();
 				PictureBoxPreview.Image = image;
+				PictureBoxPreview.BackColor = backColor;
 			}
+		}
+
+		private delegate void SetPreviewBackColorDelegate(Color backColor);
+		private void SetPreviewBackColor(Color backColor)
+		{
+			if (PanelPreviewScroll.InvokeRequired)
+				Invoke(new SetPreviewBackColorDelegate(SetPreviewBackColor), backColor);
+			else
+				PanelPreviewScroll.BackColor = backColor;
 		}
 
 		private void ButtonBrowse_Click(object sender, EventArgs e)
