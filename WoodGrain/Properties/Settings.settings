@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WoodGrain.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="InputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Layers" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="MinSteps" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="MinTemp" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">190</Value>
+    </Setting>
+    <Setting Name="MaxTemp" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">220</Value>
+    </Setting>
+    <Setting Name="OutputType" Type="WoodGrain.OutputType" Scope="User">
+      <Value Profile="(Default)">OutputType.Clipboard</Value>
+    </Setting>
+    <Setting Name="MaxSteps" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
