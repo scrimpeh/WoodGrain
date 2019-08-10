@@ -5,7 +5,7 @@ namespace WoodGrain
 {
 	public static class StepObtainer
 	{
-		public static IEnumerable<(int, int)> Generate(LayerSettings settings) 
+		public static IEnumerable<(int layer, int temp)> Generate(LayerSettings settings) 
 		{
 			var r = new Random();
 			var min = (int)settings.TempMin;

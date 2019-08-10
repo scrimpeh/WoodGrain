@@ -39,18 +39,19 @@
 			System.Windows.Forms.Label LabelLayers;
 			System.Windows.Forms.Label LabelPreview;
 			System.Windows.Forms.GroupBox GroupBoxOutput;
-			this.TextBoxFilename = new System.Windows.Forms.TextBox();
-			this.ButtonBrowse = new System.Windows.Forms.Button();
 			this.NumericStepsMax = new System.Windows.Forms.NumericUpDown();
 			this.NumericStepsMin = new System.Windows.Forms.NumericUpDown();
 			this.NumericTemperatureMax = new System.Windows.Forms.NumericUpDown();
 			this.NumericTemperatureMin = new System.Windows.Forms.NumericUpDown();
 			this.NumericLayers = new System.Windows.Forms.NumericUpDown();
-			this.PanelPreviewScroll = new System.Windows.Forms.Panel();
 			this.RadioFile = new System.Windows.Forms.RadioButton();
 			this.RadioClipboard = new System.Windows.Forms.RadioButton();
 			this.TextBoxOut = new System.Windows.Forms.TextBox();
 			this.ButtonBrowseOut = new System.Windows.Forms.Button();
+			this.TextBoxFilename = new System.Windows.Forms.TextBox();
+			this.ButtonBrowse = new System.Windows.Forms.Button();
+			this.PanelPreviewScroll = new System.Windows.Forms.Panel();
+			this.PictureBoxPreview = new System.Windows.Forms.PictureBox();
 			this.ButtonGo = new System.Windows.Forms.Button();
 			LabelPath = new System.Windows.Forms.Label();
 			GroupBoxSettings = new System.Windows.Forms.GroupBox();
@@ -70,6 +71,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.NumericTemperatureMin)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.NumericLayers)).BeginInit();
 			GroupBoxOutput.SuspendLayout();
+			this.PanelPreviewScroll.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxPreview)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// LabelPath
@@ -80,26 +83,6 @@
 			LabelPath.Size = new System.Drawing.Size(32, 13);
 			LabelPath.TabIndex = 0;
 			LabelPath.Text = "Path:";
-			// 
-			// TextBoxFilename
-			// 
-			this.TextBoxFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.TextBoxFilename.Location = new System.Drawing.Point(16, 30);
-			this.TextBoxFilename.Name = "TextBoxFilename";
-			this.TextBoxFilename.Size = new System.Drawing.Size(365, 20);
-			this.TextBoxFilename.TabIndex = 1;
-			// 
-			// ButtonBrowse
-			// 
-			this.ButtonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonBrowse.Location = new System.Drawing.Point(387, 28);
-			this.ButtonBrowse.Name = "ButtonBrowse";
-			this.ButtonBrowse.Size = new System.Drawing.Size(55, 23);
-			this.ButtonBrowse.TabIndex = 2;
-			this.ButtonBrowse.Text = "Browse";
-			this.ButtonBrowse.UseVisualStyleBackColor = true;
-			this.ButtonBrowse.Click += new System.EventHandler(this.ButtonBrowse_Click);
 			// 
 			// GroupBoxSettings
 			// 
@@ -275,6 +258,7 @@
             0,
             0,
             0});
+			this.NumericLayers.ValueChanged += new System.EventHandler(this.NumericLayers_ValueChanged);
 			// 
 			// LabelTempMin
 			// 
@@ -321,16 +305,6 @@
 			LabelPreview.Size = new System.Drawing.Size(45, 13);
 			LabelPreview.TabIndex = 0;
 			LabelPreview.Text = "Preview";
-			// 
-			// PanelPreviewScroll
-			// 
-			this.PanelPreviewScroll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.PanelPreviewScroll.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.PanelPreviewScroll.Location = new System.Drawing.Point(448, 30);
-			this.PanelPreviewScroll.Name = "PanelPreviewScroll";
-			this.PanelPreviewScroll.Size = new System.Drawing.Size(65, 204);
-			this.PanelPreviewScroll.TabIndex = 4;
 			// 
 			// GroupBoxOutput
 			// 
@@ -391,6 +365,48 @@
 			this.ButtonBrowseOut.UseVisualStyleBackColor = true;
 			this.ButtonBrowseOut.Click += new System.EventHandler(this.ButtonBrowseOut_Click);
 			// 
+			// TextBoxFilename
+			// 
+			this.TextBoxFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.TextBoxFilename.Location = new System.Drawing.Point(16, 30);
+			this.TextBoxFilename.Name = "TextBoxFilename";
+			this.TextBoxFilename.Size = new System.Drawing.Size(365, 20);
+			this.TextBoxFilename.TabIndex = 1;
+			// 
+			// ButtonBrowse
+			// 
+			this.ButtonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.ButtonBrowse.Location = new System.Drawing.Point(387, 28);
+			this.ButtonBrowse.Name = "ButtonBrowse";
+			this.ButtonBrowse.Size = new System.Drawing.Size(55, 23);
+			this.ButtonBrowse.TabIndex = 2;
+			this.ButtonBrowse.Text = "Browse";
+			this.ButtonBrowse.UseVisualStyleBackColor = true;
+			this.ButtonBrowse.Click += new System.EventHandler(this.ButtonBrowse_Click);
+			// 
+			// PanelPreviewScroll
+			// 
+			this.PanelPreviewScroll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.PanelPreviewScroll.AutoScroll = true;
+			this.PanelPreviewScroll.BackColor = System.Drawing.SystemColors.ControlDark;
+			this.PanelPreviewScroll.Controls.Add(this.PictureBoxPreview);
+			this.PanelPreviewScroll.Location = new System.Drawing.Point(448, 30);
+			this.PanelPreviewScroll.Name = "PanelPreviewScroll";
+			this.PanelPreviewScroll.Size = new System.Drawing.Size(65, 204);
+			this.PanelPreviewScroll.TabIndex = 4;
+			// 
+			// PictureBoxPreview
+			// 
+			this.PictureBoxPreview.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+			this.PictureBoxPreview.Location = new System.Drawing.Point(0, 0);
+			this.PictureBoxPreview.Name = "PictureBoxPreview";
+			this.PictureBoxPreview.Size = new System.Drawing.Size(65, 25);
+			this.PictureBoxPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this.PictureBoxPreview.TabIndex = 0;
+			this.PictureBoxPreview.TabStop = false;
+			// 
 			// ButtonGo
 			// 
 			this.ButtonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -400,7 +416,7 @@
 			this.ButtonGo.TabIndex = 2;
 			this.ButtonGo.Text = "Start";
 			this.ButtonGo.UseVisualStyleBackColor = true;
-			this.ButtonGo.Click += new System.EventHandler(this.ButtonBrowse_Click);
+			this.ButtonGo.Click += new System.EventHandler(this.ButtonGo_Click);
 			// 
 			// FormMain
 			// 
@@ -426,6 +442,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.NumericLayers)).EndInit();
 			GroupBoxOutput.ResumeLayout(false);
 			GroupBoxOutput.PerformLayout();
+			this.PanelPreviewScroll.ResumeLayout(false);
+			this.PanelPreviewScroll.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PictureBoxPreview)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -445,6 +464,7 @@
 		private System.Windows.Forms.TextBox TextBoxOut;
 		private System.Windows.Forms.Button ButtonBrowseOut;
 		private System.Windows.Forms.Button ButtonGo;
+		private System.Windows.Forms.PictureBox PictureBoxPreview;
 	}
 }
 

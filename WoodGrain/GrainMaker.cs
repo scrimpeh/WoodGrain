@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 
@@ -6,7 +7,7 @@ namespace WoodGrain
 {
 	public static class GrainMaker
 	{
-		public static string Apply(string filename, LayerSettings settings)
+		public static string Apply(string filename, IEnumerable<(int, int)> grain)
 		{
 			var doc = new XmlDocument();
 			doc.Load(filename);
@@ -22,7 +23,7 @@ namespace WoodGrain
 				node.RemoveChild(oldLayer);
 
 			// generate and insert new nodes
-			foreach (var (newLayer, temp) in StepObtainer.Generate(settings)) 
+			foreach (var (newLayer, temp) in grain) 
 			{
 				var elem = doc.CreateElement("setpoint");
 				elem.SetAttribute("layer", newLayer.ToString());

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WoodGrain
@@ -10,8 +14,15 @@ namespace WoodGrain
 		private RangedValue<int> LayerSteps;
 
 		private bool SuppressSaving = false;
+		private bool SuppressPreview = false;
+
+		private IList<(int, int)> Grain;
 
 		private OutputType outputType;
+
+		public int PreviewZoom { get; private set; } = 1;
+		public const int PreviewTempMin = 150;
+		public const int PreviewTempMax = 300;
 
 		public FormMain()
 		{
@@ -23,12 +34,15 @@ namespace WoodGrain
 
 			try
 			{
+				SuppressPreview = true;
 				LoadFromSettings();
 				SetOutputTextbox();
-			} 
-			catch 
-			{ 
-				// Initial settings might be invalid - we don't care.
+				SuppressPreview = false;
+				GetPreview();   // set it once, rather than any time the textbox change
+			}
+			finally
+			{
+				SuppressPreview = false;
 			}
 		}
 
@@ -94,16 +108,16 @@ namespace WoodGrain
 			settings.Save();
 		}
 
-		private void ToggleOutputCheckbox() 
+		private void ToggleOutputCheckbox()
 		{
-			if (RadioClipboard.Checked) 
+			if (RadioClipboard.Checked)
 			{
 				TextBoxOut.Enabled = false;
 				ButtonBrowseOut.Enabled = false;
 				RadioFile.Checked = false;
 				outputType = OutputType.Clipboard;
 			}
-			else 
+			else
 			{
 				TextBoxOut.Enabled = true;
 				ButtonBrowseOut.Enabled = true;
@@ -113,7 +127,7 @@ namespace WoodGrain
 			}
 		}
 
-		private void SetOutputTextbox() 
+		private void SetOutputTextbox()
 		{
 			if (!TextBoxOut.Enabled)
 			{
@@ -136,7 +150,7 @@ namespace WoodGrain
 			}
 		}
 
-		private void RadioFile_CheckedChanged(object sender, EventArgs e) 
+		private void RadioFile_CheckedChanged(object sender, EventArgs e)
 			=> ToggleOutputCheckbox();
 
 		private void RadioClipboard_CheckedChanged(object sender, EventArgs e)
@@ -145,15 +159,6 @@ namespace WoodGrain
 		private void ButtonGo_Click(object sender, EventArgs e)
 		{
 			var outFileName = TextBoxOut.Text.Trim('"');
-			if (outputType == OutputType.File && File.Exists(outFileName))
-			{
-				var result = MessageBox.Show(
-					$"File {outFileName} exists!\n\nOverwrite?", "Overwrite file?",
-					MessageBoxButtons.OKCancel, MessageBoxIcon.Warning
-				);
-				if (result != DialogResult.OK)
-					return;
-			}
 
 			// do some very basic sanity validation
 			var inFileName = TextBoxFilename.Text.Trim('"');
@@ -166,15 +171,10 @@ namespace WoodGrain
 				return;
 			}
 
-			var builder = new LayerSettings.Builder();
-			builder.Layers = (int)NumericLayers.Value;
-			builder.TempMin = NumericTemperatureMin.Value;
-			builder.TempMax = NumericTemperatureMax.Value;
-			builder.StepsMin = (int)NumericStepsMin.Value;
-			builder.StepsMax = (int)NumericStepsMax.Value;
-
-			if (!builder.TryBuild(out var settings))
+			GetPreview();
+			if (Grain == null) 
 			{
+				// If grain is still null, that means the operation failed somewhere
 				MessageBox.Show(
 					"Invalid settings!", "",
 					MessageBoxButtons.OK, MessageBoxIcon.Error
@@ -187,7 +187,7 @@ namespace WoodGrain
 
 			try
 			{
-				var result = GrainMaker.Apply(inFileName, settings);
+				var result = GrainMaker.Apply(inFileName, Grain);
 
 				switch (outputType)
 				{
@@ -213,18 +213,106 @@ namespace WoodGrain
 
 		private void ButtonBrowseOut_Click(object sender, EventArgs e)
 		{
-			using (var ofd = new OpenFileDialog())
+			using (var sfd = new SaveFileDialog())
 			{
-				ofd.RestoreDirectory = true;
-				ofd.Filter = "fff files (*.fff)|*.fff";
+				sfd.RestoreDirectory = true;
+				sfd.Filter = "fff files (*.fff)|*.fff";
 
 				// Try finding initial directory
 				var filename = TextBoxOut.Text.Trim('"');
 				if (File.Exists(filename))
-					ofd.InitialDirectory = Path.GetDirectoryName(filename);
+					sfd.InitialDirectory = Path.GetDirectoryName(filename);
 
-				if (ofd.ShowDialog() == DialogResult.OK)
-					TextBoxOut.Text = ofd.FileName;
+				if (sfd.ShowDialog() == DialogResult.OK)
+					TextBoxOut.Text = sfd.FileName;
+			}
+		}
+
+		private void SetPreviewImage()
+		{
+			if (Grain == null)
+				return;
+
+			var layers = new List<int>();
+			for (var i = 0; i < Grain.Count - 1; i++)
+			{
+				var (layer, temp) = Grain[i];
+				var (layerNext, _) = Grain[i + 1];
+
+				for (var j = layer; j < layerNext; j++)
+					layers.Add(temp);
+
+			}
+			layers.Add(Grain.Last().Item2);
+
+
+			var width = PictureBoxPreview.Width;
+			var height = Math.Max(PanelPreviewScroll.Height, layers.Count * PreviewZoom);
+			var bitmap = new Bitmap(width, height);
+
+			for (var y = 0; y < layers.Count; y++)
+			{
+				for (var i = 0; i < PreviewZoom; i++)
+				{
+					var grey = layers[y];
+					if (grey > 255)
+						grey = 255;
+					for (var x = 0; x < bitmap.Width; x++)
+					{
+						bitmap.SetPixel(x, y * PreviewZoom + i, Color.FromArgb(grey, grey, grey));
+					}
+				}
+			}
+			var finalColor = layers[layers.Count - 1];
+			if (finalColor > 255)
+				finalColor = 255;
+			for (var y = layers.Count * PreviewZoom; y < bitmap.Height; y++)
+			{
+				for (var x = 0; x < bitmap.Width; x++)
+				{
+					bitmap.SetPixel(x, y, Color.FromArgb(finalColor, finalColor, finalColor));
+				}
+			}
+
+			SetPreviewImage(bitmap);
+		}
+
+		private void GetGrain()
+		{
+			Grain = null;
+
+			var builder = new LayerSettings.Builder();
+			builder.Layers = (int)NumericLayers.Value;
+			builder.TempMin = NumericTemperatureMin.Value;
+			builder.TempMax = NumericTemperatureMax.Value;
+			builder.StepsMin = (int)NumericStepsMin.Value;
+			builder.StepsMax = (int)NumericStepsMax.Value;
+
+			if (!builder.TryBuild(out var settings))
+				return;
+
+			Grain = StepObtainer.Generate(settings).ToList();
+		}
+
+		private void GetPreview()
+		{
+			// todo: generating the numbers should be separate from setting the preview
+			if (SuppressPreview)
+				return;
+			GetGrain();
+			Task.Run(() => SetPreviewImage());
+		}
+
+		private delegate void SetPreviewImageDelegate(Image image);
+
+		private void SetPreviewImage(Image image)
+		{
+			if (PictureBoxPreview.InvokeRequired)
+				Invoke(new SetPreviewImageDelegate(SetPreviewImage), image);
+			else
+			{
+				PictureBoxPreview.Image?.Dispose();
+				PictureBoxPreview.Image = image;
 			}
 		}
 
@@ -253,7 +341,10 @@ namespace WoodGrain
 			if (Temperature.SuppressMinEvents)
 				return;
 			if (NumericTemperatureMin.Value <= Temperature.Max)
+			{
 				Temperature.Min = NumericTemperatureMin.Value;
+				GetPreview();
+			}
 			else try
 				{
 					Temperature.SuppressMinEvents = true;
@@ -270,7 +361,10 @@ namespace WoodGrain
 			if (Temperature.SuppressMaxEvents)
 				return;
 			if (NumericTemperatureMax.Value >= Temperature.Min)
+			{
 				Temperature.Max = NumericTemperatureMax.Value;
+				GetPreview();
+			}
 			else try
 				{
 					Temperature.SuppressMaxEvents = true;
@@ -287,7 +381,10 @@ namespace WoodGrain
 			if (LayerSteps.SuppressMinEvents)
 				return;
 			if (NumericStepsMin.Value <= LayerSteps.Max)
+			{
 				LayerSteps.Min = (int)NumericStepsMin.Value;
+				GetPreview();
+			}
 			else try
 				{
 					LayerSteps.SuppressMinEvents = true;
@@ -304,7 +401,10 @@ namespace WoodGrain
 			if (LayerSteps.SuppressMaxEvents)
 				return;
 			if (NumericStepsMax.Value >= LayerSteps.Min)
+			{
 				LayerSteps.Max = (int)NumericStepsMax.Value;
+				GetPreview();
+			}
 			else try
 				{
 					LayerSteps.SuppressMaxEvents = true;
@@ -315,6 +415,9 @@ namespace WoodGrain
 					LayerSteps.SuppressMaxEvents = false;
 				}
 		}
+
+		private void NumericLayers_ValueChanged(object sender, EventArgs e)
+			=> GetPreview();
 
 		private struct RangedValue<T> where T : struct
 		{
