@@ -6,7 +6,7 @@ namespace WoodGrain
 	{
 		// for future expansion: provide some kind of control to gather configuration
 		// from, retrieve configuration
-		// for now, these methods may safely be blank
+		// for now, these methods may safely return null
 
 		// return null if no configuration is desired
 		Control GetConfigurationControl();

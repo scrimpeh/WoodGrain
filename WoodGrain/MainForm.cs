@@ -16,7 +16,7 @@ namespace WoodGrain
 		private bool SuppressSaving = false;
 		private bool SuppressPreview = false;
 
-		private IList<(int, int)> Grain;
+		private IList<(int, int)> Pattern;
 
 		private OutputType outputType;
 
@@ -27,23 +27,33 @@ namespace WoodGrain
 
 		public FormMain()
 		{
-			InitializeComponent();
-			Temperature.Min = NumericTemperatureMin.Value;
-			Temperature.Max = NumericTemperatureMax.Value;
-			LayerSteps.Min = (int)NumericStepsMin.Value;
-			LayerSteps.Max = (int)NumericStepsMax.Value;
-
 			try
 			{
-				SuppressPreview = true;
-				LoadFromSettings();
-				SetOutputTextbox();
-				SuppressPreview = false;
-				GetPreview();   // set it once, rather than any time the textbox change
-			}
-			finally
-			{
-				SuppressPreview = false;
+				InitializeComponent();
+				Temperature.Min = NumericTemperatureMin.Value;
+				Temperature.Max = NumericTemperatureMax.Value;
+				LayerSteps.Min = (int)NumericStepsMin.Value;
+				LayerSteps.Max = (int)NumericStepsMax.Value;
+
+				try
+				{
+					SuppressPreview = true;
+					LoadFromSettings();
+					SetOutputTextbox();
+					SuppressPreview = false;
+					GetPreview();   // set it once, rather than any time the textbox change
+				}
+				catch
+				{
+
+				}
+				finally
+				{
+					SuppressPreview = false;
+				}
+			} catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+				Application.Exit();
 			}
 		}
 
@@ -173,9 +183,9 @@ namespace WoodGrain
 			}
 
 			GetPreview();
-			if (Grain == null)
+			if (Pattern == null)
 			{
-				// If grain is still null, that means the operation failed somewhere
+				// If pattern is still null, that means the operation failed somewhere
 				MessageBox.Show(
 					"Invalid settings!", "",
 					MessageBoxButtons.OK, MessageBoxIcon.Error
@@ -191,10 +201,10 @@ namespace WoodGrain
 				switch (outputType)
 				{
 					case OutputType.Clipboard:
-						Simplify3DClipboard.Instance.Apply(inFileName, null, Grain);
+						Simplify3DClipboard.Instance.Apply(inFileName, null, Pattern);
 						break;
 					case OutputType.File:
-						Simplify3DXmlFileOutput.Instance.Apply(inFileName, outFileName, Grain);
+						Simplify3DXmlFileOutput.Instance.Apply(inFileName, outFileName, Pattern);
 						break;
 				}
 			} catch (System.Xml.XmlException xmlex) {
@@ -229,19 +239,19 @@ namespace WoodGrain
 
 		private void SetPreviewImage()
 		{
-			if (Grain == null)
+			if (Pattern == null)
 				return;
 
 			var layers = new List<int>();
-			for (var i = 0; i < Grain.Count - 1; i++)
+			for (var i = 0; i < Pattern.Count - 1; i++)
 			{
-				var (layer, temp) = Grain[i];
-				var (layerNext, _) = Grain[i + 1];
+				var (layer, temp) = Pattern[i];
+				var (layerNext, _) = Pattern[i + 1];
 
 				for (var j = layer; j < layerNext; j++)
 					layers.Add(temp);
 			}
-			layers.Add(Grain.Last().Item2);
+			layers.Add(Pattern.Last().Item2);
 
 			var width = PictureBoxPreview.Width;
 			var height = layers.Count * PreviewZoom;
@@ -270,21 +280,24 @@ namespace WoodGrain
 			SetPreviewBackColor(backColor);
 		}
 
-		private void GetGrain()
+		private void GetGrainPattern()
 		{
-			Grain = null;
+			Pattern = null;
 
-			var builder = new LayerSettings.Builder();
-			builder.Layers = (int)NumericLayers.Value;
-			builder.TempMin = NumericTemperatureMin.Value;
-			builder.TempMax = NumericTemperatureMax.Value;
-			builder.StepsMin = (int)NumericStepsMin.Value;
-			builder.StepsMax = (int)NumericStepsMax.Value;
+			// for now, only GrainLayerSettings are supported
+			var builder = new GrainLayerSettings.Builder
+			{
+				Layers = (int)NumericLayers.Value,
+				TempMin = NumericTemperatureMin.Value,
+				TempMax = NumericTemperatureMax.Value,
+				StepsMin = (int)NumericStepsMin.Value,
+				StepsMax = (int)NumericStepsMax.Value
+			};
 
 			if (!builder.TryBuild(out var settings))
 				return;
 
-			Grain = GrainGenerator.Instance.GetLayers(settings).ToList();
+			Pattern = GrainGenerator.Instance.GetLayers(settings).ToList();
 		}
 
 		private void GetPreview()
@@ -292,7 +305,7 @@ namespace WoodGrain
 			// todo: generating the numbers should be separate from setting the preview
 			if (SuppressPreview)
 				return;
-			GetGrain();
+			GetGrainPattern();
 			Task.Run(() => SetPreviewImage());
 		}
 

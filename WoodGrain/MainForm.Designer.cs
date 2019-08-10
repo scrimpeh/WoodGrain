@@ -240,7 +240,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.NumericLayers.Location = new System.Drawing.Point(117, 20);
 			this.NumericLayers.Maximum = new decimal(new int[] {
-            999,
+            9999,
             0,
             0,
             0});

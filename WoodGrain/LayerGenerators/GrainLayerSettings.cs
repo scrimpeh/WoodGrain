@@ -2,10 +2,10 @@
 
 namespace WoodGrain
 {
-	public struct LayerSettings
+	public struct GrainLayerSettings
 	{
 		public const int MinLayers = 1;
-		public const int MaxLayers = 999;
+		public const int MaxLayers = 9999;
 		public const int MinSteps = 1;
 		public const int MaxSteps = 999;
 		public const decimal MinTemp = 1;
@@ -18,7 +18,7 @@ namespace WoodGrain
 		public decimal TempMin { get; private set; }
 		public decimal TempMax { get; private set; }
 
-		private LayerSettings(Builder builder)
+		private GrainLayerSettings(Builder builder)
 		{
 			Layers = builder.Layers;
 			StepsMin = builder.StepsMin;
@@ -44,19 +44,19 @@ namespace WoodGrain
 			public decimal TempMin { get; set; }
 			public decimal TempMax { get; set; }
 
-			public LayerSettings Build()
-				=> new LayerSettings(this);
+			public GrainLayerSettings Build()
+				=> new GrainLayerSettings(this);
 
-			public bool TryBuild(out LayerSettings settings)
+			public bool TryBuild(out GrainLayerSettings settings)
 			{
 				try 
 				{
-					settings = new LayerSettings(this);
+					settings = new GrainLayerSettings(this);
 					return true;
 				} 
 				catch
 				{
-					settings = default(LayerSettings);
+					settings = default(GrainLayerSettings);
 					return false;
 				}
 			}
