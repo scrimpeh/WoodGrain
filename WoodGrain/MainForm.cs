@@ -188,15 +188,13 @@ namespace WoodGrain
 
 			try
 			{
-				var result = GrainMaker.Apply(inFileName, Grain);
-
 				switch (outputType)
 				{
 					case OutputType.Clipboard:
-						Clipboard.SetText(result);
+						Simplify3DClipboard.Instance.Apply(inFileName, null, Grain);
 						break;
 					case OutputType.File:
-						File.WriteAllText(outFileName, result);
+						Simplify3DXmlFileOutput.Instance.Apply(inFileName, outFileName, Grain);
 						break;
 				}
 			} catch (System.Xml.XmlException xmlex) {
@@ -286,7 +284,7 @@ namespace WoodGrain
 			if (!builder.TryBuild(out var settings))
 				return;
 
-			Grain = StepObtainer.Generate(settings).ToList();
+			Grain = GrainGenerator.Instance.GetLayers(settings).ToList();
 		}
 
 		private void GetPreview()

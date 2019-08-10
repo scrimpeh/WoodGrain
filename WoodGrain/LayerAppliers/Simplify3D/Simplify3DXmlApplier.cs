@@ -1,17 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml;
 
 namespace WoodGrain
 {
-	public static class GrainMaker
+	public static class Simplify3DXmlApllier
 	{
-		public static string Apply(string filename, IEnumerable<(int, int)> grain)
+		public static void Apply(XmlDocument doc, IEnumerable<(int, int)> layers)
 		{
-			var doc = new XmlDocument();
-			doc.Load(filename);
-
 			// find "<temperatureController name="Primary Extruder">" child node
 			var node = doc.SelectSingleNode("profile/temperatureController[@name='Primary Extruder']");
 			if (node == null)
@@ -23,20 +19,12 @@ namespace WoodGrain
 				node.RemoveChild(oldLayer);
 
 			// generate and insert new nodes
-			foreach (var (newLayer, temp) in grain) 
+			foreach (var (newLayer, temp) in layers)
 			{
 				var elem = doc.CreateElement("setpoint");
 				elem.SetAttribute("layer", newLayer.ToString());
 				elem.SetAttribute("temperature", temp.ToString());
 				node.AppendChild(elem);
-			}
-
-			// now dump the resulting xml back into a string
-			doc.PreserveWhitespace = false;
-			using (var w = new StringWriter())
-			{
-				doc.Save(w);
-				return w.ToString();
 			}
 		}
 	}
