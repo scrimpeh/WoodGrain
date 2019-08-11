@@ -39,6 +39,9 @@
 			System.Windows.Forms.Label LabelLayers;
 			System.Windows.Forms.Label LabelPreview;
 			System.Windows.Forms.GroupBox GroupBoxOutput;
+			System.Windows.Forms.Label LabelStartWith;
+			System.Windows.Forms.Label LabelForFirst;
+			System.Windows.Forms.Label LabelStartWithLayers;
 			this.NumericStepsMax = new System.Windows.Forms.NumericUpDown();
 			this.NumericStepsMin = new System.Windows.Forms.NumericUpDown();
 			this.NumericTemperatureMax = new System.Windows.Forms.NumericUpDown();
@@ -53,6 +56,8 @@
 			this.PanelPreviewScroll = new System.Windows.Forms.Panel();
 			this.PictureBoxPreview = new System.Windows.Forms.PictureBox();
 			this.ButtonGo = new System.Windows.Forms.Button();
+			this.NumericStartingTemp = new System.Windows.Forms.NumericUpDown();
+			this.NumericStartingLayers = new System.Windows.Forms.NumericUpDown();
 			LabelPath = new System.Windows.Forms.Label();
 			GroupBoxSettings = new System.Windows.Forms.GroupBox();
 			LabelStepsMax = new System.Windows.Forms.Label();
@@ -64,6 +69,9 @@
 			LabelLayers = new System.Windows.Forms.Label();
 			LabelPreview = new System.Windows.Forms.Label();
 			GroupBoxOutput = new System.Windows.Forms.GroupBox();
+			LabelStartWith = new System.Windows.Forms.Label();
+			LabelForFirst = new System.Windows.Forms.Label();
+			LabelStartWithLayers = new System.Windows.Forms.Label();
 			GroupBoxSettings.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.NumericStepsMax)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.NumericStepsMin)).BeginInit();
@@ -73,6 +81,8 @@
 			GroupBoxOutput.SuspendLayout();
 			this.PanelPreviewScroll.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBoxPreview)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.NumericStartingTemp)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.NumericStartingLayers)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// LabelPath
@@ -88,21 +98,26 @@
 			// 
 			GroupBoxSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			GroupBoxSettings.Controls.Add(this.NumericStartingLayers);
 			GroupBoxSettings.Controls.Add(this.NumericStepsMax);
+			GroupBoxSettings.Controls.Add(this.NumericStartingTemp);
 			GroupBoxSettings.Controls.Add(this.NumericStepsMin);
 			GroupBoxSettings.Controls.Add(this.NumericTemperatureMax);
+			GroupBoxSettings.Controls.Add(LabelStartWithLayers);
+			GroupBoxSettings.Controls.Add(LabelForFirst);
 			GroupBoxSettings.Controls.Add(LabelStepsMax);
 			GroupBoxSettings.Controls.Add(this.NumericTemperatureMin);
 			GroupBoxSettings.Controls.Add(LabelTempMax);
 			GroupBoxSettings.Controls.Add(LabelStepsMin);
 			GroupBoxSettings.Controls.Add(this.NumericLayers);
 			GroupBoxSettings.Controls.Add(LabelTempMin);
+			GroupBoxSettings.Controls.Add(LabelStartWith);
 			GroupBoxSettings.Controls.Add(LabelSteps);
 			GroupBoxSettings.Controls.Add(LabelTemp);
 			GroupBoxSettings.Controls.Add(LabelLayers);
 			GroupBoxSettings.Location = new System.Drawing.Point(16, 57);
 			GroupBoxSettings.Name = "GroupBoxSettings";
-			GroupBoxSettings.Size = new System.Drawing.Size(423, 103);
+			GroupBoxSettings.Size = new System.Drawing.Size(354, 129);
 			GroupBoxSettings.TabIndex = 3;
 			GroupBoxSettings.TabStop = false;
 			GroupBoxSettings.Text = "Settings";
@@ -111,7 +126,7 @@
 			// 
 			this.NumericStepsMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.NumericStepsMax.Location = new System.Drawing.Point(214, 72);
+			this.NumericStepsMax.Location = new System.Drawing.Point(239, 72);
 			this.NumericStepsMax.Maximum = new decimal(new int[] {
             999,
             0,
@@ -123,7 +138,7 @@
             0,
             0});
 			this.NumericStepsMax.Name = "NumericStepsMax";
-			this.NumericStepsMax.Size = new System.Drawing.Size(202, 20);
+			this.NumericStepsMax.Size = new System.Drawing.Size(64, 20);
 			this.NumericStepsMax.TabIndex = 0;
 			this.NumericStepsMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.NumericStepsMax.Value = new decimal(new int[] {
@@ -161,7 +176,7 @@
 			// 
 			this.NumericTemperatureMax.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.NumericTemperatureMax.Location = new System.Drawing.Point(214, 46);
+			this.NumericTemperatureMax.Location = new System.Drawing.Point(239, 46);
 			this.NumericTemperatureMax.Maximum = new decimal(new int[] {
             999,
             0,
@@ -173,7 +188,7 @@
             0,
             0});
 			this.NumericTemperatureMax.Name = "NumericTemperatureMax";
-			this.NumericTemperatureMax.Size = new System.Drawing.Size(202, 20);
+			this.NumericTemperatureMax.Size = new System.Drawing.Size(64, 20);
 			this.NumericTemperatureMax.TabIndex = 0;
 			this.NumericTemperatureMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.NumericTemperatureMax.Value = new decimal(new int[] {
@@ -186,7 +201,7 @@
 			// LabelStepsMax
 			// 
 			LabelStepsMax.AutoSize = true;
-			LabelStepsMax.Location = new System.Drawing.Point(181, 74);
+			LabelStepsMax.Location = new System.Drawing.Point(206, 74);
 			LabelStepsMax.Name = "LabelStepsMax";
 			LabelStepsMax.Size = new System.Drawing.Size(27, 13);
 			LabelStepsMax.TabIndex = 0;
@@ -219,7 +234,7 @@
 			// LabelTempMax
 			// 
 			LabelTempMax.AutoSize = true;
-			LabelTempMax.Location = new System.Drawing.Point(181, 48);
+			LabelTempMax.Location = new System.Drawing.Point(206, 48);
 			LabelTempMax.Name = "LabelTempMax";
 			LabelTempMax.Size = new System.Drawing.Size(27, 13);
 			LabelTempMax.TabIndex = 0;
@@ -250,7 +265,7 @@
             0,
             0});
 			this.NumericLayers.Name = "NumericLayers";
-			this.NumericLayers.Size = new System.Drawing.Size(299, 20);
+			this.NumericLayers.Size = new System.Drawing.Size(186, 20);
 			this.NumericLayers.TabIndex = 0;
 			this.NumericLayers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.NumericLayers.Value = new decimal(new int[] {
@@ -300,7 +315,7 @@
 			// 
 			LabelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			LabelPreview.AutoSize = true;
-			LabelPreview.Location = new System.Drawing.Point(445, 9);
+			LabelPreview.Location = new System.Drawing.Point(376, 9);
 			LabelPreview.Name = "LabelPreview";
 			LabelPreview.Size = new System.Drawing.Size(45, 13);
 			LabelPreview.TabIndex = 0;
@@ -314,9 +329,9 @@
 			GroupBoxOutput.Controls.Add(this.RadioClipboard);
 			GroupBoxOutput.Controls.Add(this.TextBoxOut);
 			GroupBoxOutput.Controls.Add(this.ButtonBrowseOut);
-			GroupBoxOutput.Location = new System.Drawing.Point(13, 167);
+			GroupBoxOutput.Location = new System.Drawing.Point(16, 192);
 			GroupBoxOutput.Name = "GroupBoxOutput";
-			GroupBoxOutput.Size = new System.Drawing.Size(426, 73);
+			GroupBoxOutput.Size = new System.Drawing.Size(357, 73);
 			GroupBoxOutput.TabIndex = 5;
 			GroupBoxOutput.TabStop = false;
 			GroupBoxOutput.Text = "Output To...";
@@ -351,13 +366,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextBoxOut.Location = new System.Drawing.Point(12, 43);
 			this.TextBoxOut.Name = "TextBoxOut";
-			this.TextBoxOut.Size = new System.Drawing.Size(347, 20);
+			this.TextBoxOut.Size = new System.Drawing.Size(278, 20);
 			this.TextBoxOut.TabIndex = 1;
 			// 
 			// ButtonBrowseOut
 			// 
 			this.ButtonBrowseOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonBrowseOut.Location = new System.Drawing.Point(365, 41);
+			this.ButtonBrowseOut.Location = new System.Drawing.Point(296, 41);
 			this.ButtonBrowseOut.Name = "ButtonBrowseOut";
 			this.ButtonBrowseOut.Size = new System.Drawing.Size(55, 23);
 			this.ButtonBrowseOut.TabIndex = 2;
@@ -371,13 +386,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.TextBoxFilename.Location = new System.Drawing.Point(16, 30);
 			this.TextBoxFilename.Name = "TextBoxFilename";
-			this.TextBoxFilename.Size = new System.Drawing.Size(365, 20);
+			this.TextBoxFilename.Size = new System.Drawing.Size(296, 20);
 			this.TextBoxFilename.TabIndex = 1;
 			// 
 			// ButtonBrowse
 			// 
 			this.ButtonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonBrowse.Location = new System.Drawing.Point(387, 28);
+			this.ButtonBrowse.Location = new System.Drawing.Point(318, 28);
 			this.ButtonBrowse.Name = "ButtonBrowse";
 			this.ButtonBrowse.Size = new System.Drawing.Size(55, 23);
 			this.ButtonBrowse.TabIndex = 2;
@@ -392,9 +407,9 @@
 			this.PanelPreviewScroll.AutoScroll = true;
 			this.PanelPreviewScroll.BackColor = System.Drawing.SystemColors.ControlDark;
 			this.PanelPreviewScroll.Controls.Add(this.PictureBoxPreview);
-			this.PanelPreviewScroll.Location = new System.Drawing.Point(448, 30);
+			this.PanelPreviewScroll.Location = new System.Drawing.Point(379, 30);
 			this.PanelPreviewScroll.Name = "PanelPreviewScroll";
-			this.PanelPreviewScroll.Size = new System.Drawing.Size(65, 204);
+			this.PanelPreviewScroll.Size = new System.Drawing.Size(65, 235);
 			this.PanelPreviewScroll.TabIndex = 4;
 			// 
 			// PictureBoxPreview
@@ -410,7 +425,7 @@
 			// ButtonGo
 			// 
 			this.ButtonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.ButtonGo.Location = new System.Drawing.Point(458, 244);
+			this.ButtonGo.Location = new System.Drawing.Point(389, 275);
 			this.ButtonGo.Name = "ButtonGo";
 			this.ButtonGo.Size = new System.Drawing.Size(55, 23);
 			this.ButtonGo.TabIndex = 2;
@@ -418,10 +433,83 @@
 			this.ButtonGo.UseVisualStyleBackColor = true;
 			this.ButtonGo.Click += new System.EventHandler(this.ButtonGo_Click);
 			// 
+			// LabelStartWith
+			// 
+			LabelStartWith.AutoSize = true;
+			LabelStartWith.Location = new System.Drawing.Point(6, 100);
+			LabelStartWith.Name = "LabelStartWith";
+			LabelStartWith.Size = new System.Drawing.Size(26, 13);
+			LabelStartWith.TabIndex = 0;
+			LabelStartWith.Text = "Use";
+			// 
+			// NumericStartingTemp
+			// 
+			this.NumericStartingTemp.Location = new System.Drawing.Point(117, 98);
+			this.NumericStartingTemp.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+			this.NumericStartingTemp.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.NumericStartingTemp.Name = "NumericStartingTemp";
+			this.NumericStartingTemp.Size = new System.Drawing.Size(58, 20);
+			this.NumericStartingTemp.TabIndex = 0;
+			this.NumericStartingTemp.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.NumericStartingTemp.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.NumericStartingTemp.ValueChanged += new System.EventHandler(this.NumericStartingTemp_ValueChanged);
+			// 
+			// LabelForFirst
+			// 
+			LabelForFirst.AutoSize = true;
+			LabelForFirst.Location = new System.Drawing.Point(181, 100);
+			LabelForFirst.Name = "LabelForFirst";
+			LabelForFirst.Size = new System.Drawing.Size(52, 13);
+			LabelForFirst.TabIndex = 0;
+			LabelForFirst.Text = "°C for first";
+			// 
+			// LabelStartWithLayers
+			// 
+			LabelStartWithLayers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			LabelStartWithLayers.AutoSize = true;
+			LabelStartWithLayers.Location = new System.Drawing.Point(309, 100);
+			LabelStartWithLayers.Name = "LabelStartWithLayers";
+			LabelStartWithLayers.Size = new System.Drawing.Size(38, 13);
+			LabelStartWithLayers.TabIndex = 0;
+			LabelStartWithLayers.Text = "Layers";
+			// 
+			// NumericStartingLayers
+			// 
+			this.NumericStartingLayers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.NumericStartingLayers.Location = new System.Drawing.Point(239, 98);
+			this.NumericStartingLayers.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+			this.NumericStartingLayers.Name = "NumericStartingLayers";
+			this.NumericStartingLayers.Size = new System.Drawing.Size(64, 20);
+			this.NumericStartingLayers.TabIndex = 0;
+			this.NumericStartingLayers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.NumericStartingLayers.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+			this.NumericStartingLayers.ValueChanged += new System.EventHandler(this.NumericStartingLayers_ValueChanged);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(525, 279);
+			this.ClientSize = new System.Drawing.Size(456, 310);
 			this.Controls.Add(GroupBoxOutput);
 			this.Controls.Add(this.PanelPreviewScroll);
 			this.Controls.Add(GroupBoxSettings);
@@ -430,7 +518,7 @@
 			this.Controls.Add(this.TextBoxFilename);
 			this.Controls.Add(LabelPreview);
 			this.Controls.Add(LabelPath);
-			this.MinimumSize = new System.Drawing.Size(394, 318);
+			this.MinimumSize = new System.Drawing.Size(472, 318);
 			this.Name = "FormMain";
 			this.Text = "Wood Grain Maker";
 			GroupBoxSettings.ResumeLayout(false);
@@ -445,6 +533,8 @@
 			this.PanelPreviewScroll.ResumeLayout(false);
 			this.PanelPreviewScroll.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBoxPreview)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.NumericStartingTemp)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.NumericStartingLayers)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -465,6 +555,8 @@
 		private System.Windows.Forms.Button ButtonBrowseOut;
 		private System.Windows.Forms.Button ButtonGo;
 		private System.Windows.Forms.PictureBox PictureBoxPreview;
+		private System.Windows.Forms.NumericUpDown NumericStartingLayers;
+		private System.Windows.Forms.NumericUpDown NumericStartingTemp;
 	}
 }
 

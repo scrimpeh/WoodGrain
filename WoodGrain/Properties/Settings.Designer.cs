@@ -106,5 +106,29 @@ namespace WoodGrain.Properties {
                 this["MaxSteps"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("190")]
+        public decimal StartingTemperature {
+            get {
+                return ((decimal)(this["StartingTemperature"]));
+            }
+            set {
+                this["StartingTemperature"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int StartingLayers {
+            get {
+                return ((int)(this["StartingLayers"]));
+            }
+            set {
+                this["StartingLayers"] = value;
+            }
+        }
     }
 }

@@ -23,5 +23,11 @@
     <Setting Name="MaxSteps" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">8</Value>
     </Setting>
+    <Setting Name="StartingTemperature" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">190</Value>
+    </Setting>
+    <Setting Name="StartingLayers" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

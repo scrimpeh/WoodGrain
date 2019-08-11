@@ -14,9 +14,11 @@ namespace WoodGrain
 		public int Layers { get; private set; } 
 		public int StepsMin { get; private set; }
 		public int StepsMax { get; private set; }
+		public int StartLayers { get; private set; }
 
 		public decimal TempMin { get; private set; }
 		public decimal TempMax { get; private set; }
+		public decimal StartTemp { get; private set; }
 
 		private GrainLayerSettings(Builder builder)
 		{
@@ -25,11 +27,15 @@ namespace WoodGrain
 			StepsMax = builder.StepsMax;
 			TempMin = builder.TempMin;
 			TempMax = builder.TempMax;
+			StartTemp = builder.StartTemp;
+			StartLayers = builder.StartLayers;
 
 			var ok = true;
 			ok &= MinLayers <= Layers && Layers <= MaxLayers;
 			ok &= MinSteps <= StepsMin && StepsMin <= StepsMax && StepsMax <= MaxSteps;
 			ok &= MinTemp <= TempMin && TempMin <= TempMax && TempMax <= MaxTemp;
+			ok &= MinTemp <= StartTemp && StartTemp <= MaxTemp;
+			ok &= 0 <= StartLayers;
 
 			if (!ok)
 				throw new ArgumentOutOfRangeException();
@@ -40,9 +46,11 @@ namespace WoodGrain
 			public int Layers { get; set; }
 			public int StepsMin { get; set; }
 			public int StepsMax { get; set; }
+			public int StartLayers { get; set; }
 
 			public decimal TempMin { get; set; }
 			public decimal TempMax { get; set; }
+			public decimal StartTemp { get; set; }
 
 			public GrainLayerSettings Build()
 				=> new GrainLayerSettings(this);

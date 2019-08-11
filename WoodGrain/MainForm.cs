@@ -79,6 +79,8 @@ namespace WoodGrain
 				NumericTemperatureMax.Value = settings.MaxTemp;
 				NumericStepsMin.Value = settings.MinSteps;
 				NumericStepsMax.Value = settings.MaxSteps;
+				NumericStartingLayers.Value = settings.StartingLayers;
+				NumericStartingTemp.Value = settings.StartingTemperature;
 
 				outputType = settings.OutputType;
 
@@ -110,6 +112,8 @@ namespace WoodGrain
 			settings.MaxTemp = NumericTemperatureMax.Value;
 			settings.MinSteps = (int)NumericStepsMin.Value;
 			settings.MaxSteps = (int)NumericStepsMax.Value;
+			settings.StartingTemperature = NumericStartingTemp.Value;
+			settings.StartingLayers = (int)NumericStartingLayers.Value;
 
 			if (RadioClipboard.Checked)
 				settings.OutputType = OutputType.Clipboard;
@@ -291,7 +295,9 @@ namespace WoodGrain
 				TempMin = NumericTemperatureMin.Value,
 				TempMax = NumericTemperatureMax.Value,
 				StepsMin = (int)NumericStepsMin.Value,
-				StepsMax = (int)NumericStepsMax.Value
+				StepsMax = (int)NumericStepsMax.Value,
+				StartTemp = NumericStartingTemp.Value,
+				StartLayers = (int)NumericStartingLayers.Value
 			};
 
 			if (!builder.TryBuild(out var settings))
@@ -432,6 +438,12 @@ namespace WoodGrain
 		}
 
 		private void NumericLayers_ValueChanged(object sender, EventArgs e)
+			=> GetPreview();
+
+		private void NumericStartingTemp_ValueChanged(object sender, EventArgs e)
+			=> GetPreview();
+
+		private void NumericStartingLayers_ValueChanged(object sender, EventArgs e)
 			=> GetPreview();
 
 		private struct RangedValue<T> where T : struct
