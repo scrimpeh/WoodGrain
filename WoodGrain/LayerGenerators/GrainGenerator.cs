@@ -21,6 +21,11 @@ namespace WoodGrain
 			var max = (int)settings.TempMax;
 
 			var layer = 1;
+			if (settings.StartLayers > 0)
+			{
+				yield return (1, (int)settings.StartTemp);
+				layer += settings.StartLayers;
+			}
 			while (layer - 1 < settings.StartLayers && layer <= settings.Layers)
 				yield return (layer++, (int)settings.StartTemp);
 			while (layer <= settings.Layers)
