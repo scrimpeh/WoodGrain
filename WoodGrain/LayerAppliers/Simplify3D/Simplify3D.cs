@@ -20,9 +20,9 @@ namespace WoodGrain
 
 		protected abstract void Output(XmlDocument doc, TOutput output);
 
-		public Control GetInputConfigurationControl() => null;
+		public Control InputConfigurationControl => null;
 
-		public abstract Control GetOutputConfigurationControl();
+		public abstract Control OutputConfigurationControl { get; }
 	}
 
 	public class Simplify3DClipboard : Simplify3DXmlFileInput<object>
@@ -31,7 +31,7 @@ namespace WoodGrain
 
 		private Simplify3DClipboard() { }
 
-		public override Control GetOutputConfigurationControl() => null;
+		public override Control OutputConfigurationControl => null;
 
 		protected override void Output(XmlDocument doc, object output) 
 		{
@@ -50,7 +50,7 @@ namespace WoodGrain
 
 		private Simplify3DXmlFileOutput() { }
 
-		public override Control GetOutputConfigurationControl() => null;
+		public override Control OutputConfigurationControl => null;
 
 		protected override void Output(XmlDocument doc, string output)
 		{

@@ -10,7 +10,7 @@ namespace WoodGrain
 
 		private GrainGenerator() { }
 
-		public Control GetConfigurationControl() => null;
+		public Control ConfigurationControl => null;
 
 		public IEnumerable<(int layer, int step)> GetLayers(GrainLayerSettings settings)
 		{

@@ -6,8 +6,8 @@ namespace WoodGrain
 	{
 		// for future expansion, see IConfigurable
 
-		Control GetInputConfigurationControl();
+		Control InputConfigurationControl { get; }
 
-		Control GetOutputConfigurationControl();
+		Control OutputConfigurationControl { get; }
 	}
 }
