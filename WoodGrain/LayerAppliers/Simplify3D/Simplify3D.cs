@@ -22,11 +22,7 @@ namespace WoodGrain
 
 		public Control GetInputConfigurationControl() => null;
 
-		public string ConfigureInput(Control configurationControl) => string.Empty;
-
 		public abstract Control GetOutputConfigurationControl();
-
-		public abstract TOutput ConfigureOutput(Control configurationControl);
 	}
 
 	public class Simplify3DClipboard : Simplify3DXmlFileInput<object>
@@ -34,8 +30,6 @@ namespace WoodGrain
 		public static Simplify3DClipboard Instance = new Simplify3DClipboard();
 
 		private Simplify3DClipboard() { }
-
-		public override object ConfigureOutput(Control configurationControl) => null;
 
 		public override Control GetOutputConfigurationControl() => null;
 
@@ -55,8 +49,6 @@ namespace WoodGrain
 		public static Simplify3DXmlFileOutput Instance = new Simplify3DXmlFileOutput();
 
 		private Simplify3DXmlFileOutput() { }
-
-		public override string ConfigureOutput(Control configurationControl) => null;
 
 		public override Control GetOutputConfigurationControl() => null;
 

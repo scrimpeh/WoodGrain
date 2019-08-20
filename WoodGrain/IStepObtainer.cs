@@ -2,7 +2,7 @@
 
 namespace WoodGrain
 {
-	public interface ILayerGenerator<TInput> : IConfigurable<TInput>
+	public interface ILayerGenerator<TInput> : IConfigurable
 	{
 		IEnumerable<(int layer, int step)> GetLayers(TInput data);
 	}
