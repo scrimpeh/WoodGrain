@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="IConfigurable.cs" />
     <Compile Include="IInOutConfigurable.cs" />
+    <Compile Include="IStatable.cs" />
     <Compile Include="IStepObtainer.cs" />
     <Compile Include="LayerAppliers\Simplify3D\Simplify3DXmlApplier.cs" />
     <Compile Include="LayerAppliers\Simplify3D\Simplify3D.cs" />

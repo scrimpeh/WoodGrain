@@ -2,7 +2,7 @@
 
 namespace WoodGrain
 {
-	public interface IInOutConfigurable
+	public interface IInOutConfigurable : IStatable
 	{
 		// for future expansion, see IConfigurable
 

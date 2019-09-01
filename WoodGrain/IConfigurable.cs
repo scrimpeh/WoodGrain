@@ -2,7 +2,7 @@
 
 namespace WoodGrain
 {
-	public interface IConfigurable
+	public interface IConfigurable : IStatable
 	{
 		// return null if no configuration is desired
 		Control ConfigurationControl { get; }

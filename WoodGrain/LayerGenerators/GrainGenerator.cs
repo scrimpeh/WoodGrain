@@ -12,6 +12,11 @@ namespace WoodGrain
 
 		public Control ConfigurationControl => null;
 
+		public virtual void Save() 
+		{
+			// nada
+		}
+
 		public IEnumerable<(int layer, int step)> GetLayers(GrainLayerSettings settings)
 		{
 			var r = new Random();

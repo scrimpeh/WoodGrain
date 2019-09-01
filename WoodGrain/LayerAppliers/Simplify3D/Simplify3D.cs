@@ -20,6 +20,11 @@ namespace WoodGrain
 
 		protected abstract void Output(XmlDocument doc, TOutput output);
 
+		public virtual void Save()
+		{
+			// Nothing yet
+		}
+
 		public Control InputConfigurationControl => null;
 
 		public abstract Control OutputConfigurationControl { get; }
@@ -41,6 +46,11 @@ namespace WoodGrain
 				doc.Save(w);
 				Clipboard.SetText(w.ToString());
 			}
+		}
+
+		public override void Save() 
+		{
+			base.Save();
 		}
 	}
 
@@ -71,6 +81,11 @@ namespace WoodGrain
 
 			doc.PreserveWhitespace = false;
 			doc.Save(output);
+		}
+
+		public override void Save()
+		{
+			base.Save();
 		}
 	}
 }
