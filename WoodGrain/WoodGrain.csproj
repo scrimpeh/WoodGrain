@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IConfigurable.cs" />
+    <Compile Include="View\IGrainPreview.cs" />
     <Compile Include="IInOutConfigurable.cs" />
     <Compile Include="IStatable.cs" />
     <Compile Include="IStepObtainer.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LayerGenerators\GrainGenerator.cs" />
+    <Compile Include="View\LowHighColorInterpPreview.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

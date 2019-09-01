@@ -246,40 +246,13 @@ namespace WoodGrain
 			if (Pattern == null)
 				return;
 
-			var layers = new List<int>();
-			for (var i = 0; i < Pattern.Count - 1; i++)
-			{
-				var (layer, temp) = Pattern[i];
-				var (layerNext, _) = Pattern[i + 1];
+			var preview = new LowHighColorInterpPreview();
+			preview.Low = Color.LightSalmon; // tbd
+			preview.High = Color.Maroon;
+			preview.LowTemp = 150;
+			preview.HighTemp = 250;
+			var bitmap = preview.GetPreviewImage(Pattern, PictureBoxPreview.Width, PreviewZoom, out var backColor);
 
-				for (var j = layer; j < layerNext; j++)
-					layers.Add(temp);
-			}
-			layers.Add(Pattern.Last().Item2);
-
-			var width = PictureBoxPreview.Width;
-			var height = layers.Count * PreviewZoom;
-			var bitmap = new Bitmap(width, height);
-
-			for (var y = 0; y < layers.Count; y++)
-			{
-				for (var i = 0; i < PreviewZoom; i++)
-				{
-					var grey = layers[y];
-					if (grey > 255)
-						grey = 255;
-					for (var x = 0; x < bitmap.Width; x++)
-					{
-						bitmap.SetPixel(x, y * PreviewZoom + i, Color.FromArgb(grey, grey, grey));
-					}
-				}
-			}
-			var finalColor = layers[layers.Count - 1];
-
-			if (finalColor > 255)
-				finalColor = 255;
-
-			var backColor = Color.FromArgb(finalColor, finalColor, finalColor);
 			SetPreviewImage(bitmap, backColor);
 			SetPreviewBackColor(backColor);
 		}
